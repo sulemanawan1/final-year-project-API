@@ -12,21 +12,22 @@ namespace flowers.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class plan
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
+        public plan()
         {
-            this.plans = new HashSet<plan>();
+            this.planflowers = new HashSet<planflower>();
         }
     
-        public int id { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
-        public string role { get; set; }
-        public string city { get; set; }
+        public int pid { get; set; }
+        public string planname { get; set; }
+        public Nullable<int> createdby { get; set; }
+        public string startmonth { get; set; }
+        public string plantype { get; set; }
     
+        public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<plan> plans { get; set; }
+        public virtual ICollection<planflower> planflowers { get; set; }
     }
 }

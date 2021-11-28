@@ -4,10 +4,17 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="7148c2b8d0c64ee3bc240b4555c849af" Name="Diagram1">
-        <EntityTypeShape EntityType="flowersplantationModel.flowerimage" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="flowersplantationModel.myflower" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="flowersplantationModel.User" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+      <Diagram DiagramId="d9f56484716545c6be7efed5d9075961" Name="Diagram1">
+        <EntityTypeShape EntityType="flowersplantationModel.flowercity" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="flowersplantationModel.flowercolor" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="flowersplantationModel.flowerimage" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="flowersplantationModel.flower" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="flowersplantationModel.planflower" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="flowersplantationModel.plan" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="flowersplantationModel.User" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
+        <AssociationConnector Association="flowersplantationModel.FK__plans__createdby__37FA4C37" ManuallyRouted="false" />
+        <AssociationConnector Association="flowersplantationModel.FK__planflowers__fid__473C8FC7" />
+        <AssociationConnector Association="flowersplantationModel.FK__planflowers__pid__46486B8E" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

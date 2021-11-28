@@ -12,20 +12,13 @@ namespace flowers.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class myflower
+    public partial class planflower
     {
-        public string name { get; set; }
-        public string color { get; set; }
-        public string month { get; set; }
-        public string season { get; set; }
-        public string growtime { get; set; }
-        public string height { get; set; }
-        public string category { get; set; }
-        public string shape { get; set; }
-        public string fragrance { get; set; }
-        public string lifetime { get; set; }
-        public string altitude { get; set; }
-        public string area { get; set; }
+        public Nullable<int> pid { get; set; }
+        public Nullable<int> fid { get; set; }
         public int id { get; set; }
+    
+        public virtual flower flower { get; set; }
+        public virtual plan plan { get; set; }
     }
 }

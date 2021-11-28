@@ -12,9 +12,14 @@ namespace flowers.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class flowerimage
+    public partial class flowercity
     {
-        public string image_name { get; set; }
+        public string area { get; set; }
+        public Nullable<double> lat { get; set; }
+        public Nullable<double> lng { get; set; }
+        public string country { get; set; }
+        public string province { get; set; }
+        public Nullable<double> altitude { get; set; }
         public int id { get; set; }
     }
 }

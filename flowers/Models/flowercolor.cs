@@ -12,9 +12,9 @@ namespace flowers.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class flowerimage
+    public partial class flowercolor
     {
-        public string image_name { get; set; }
         public int id { get; set; }
+        public string color { get; set; }
     }
 }

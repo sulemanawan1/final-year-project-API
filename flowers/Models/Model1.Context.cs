@@ -13,10 +13,10 @@ namespace flowers.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class flowersplantationEntities8 : DbContext
+    public partial class flowersplantationEntities35 : DbContext
     {
-        public flowersplantationEntities8()
-            : base("name=flowersplantationEntities8")
+        public flowersplantationEntities35()
+            : base("name=flowersplantationEntities35")
         {
         }
     
@@ -25,8 +25,12 @@ namespace flowers.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<flowercity> flowercities { get; set; }
+        public virtual DbSet<flowercolor> flowercolors { get; set; }
         public virtual DbSet<flowerimage> flowerimages { get; set; }
-        public virtual DbSet<myflower> myflowers { get; set; }
+        public virtual DbSet<flower> flowers { get; set; }
+        public virtual DbSet<planflower> planflowers { get; set; }
+        public virtual DbSet<plan> plans { get; set; }
         public virtual DbSet<User> Users { get; set; }
     }
 }

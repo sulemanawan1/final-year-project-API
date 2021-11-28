@@ -10,7 +10,8 @@ namespace flowers.Controllers
 {
     public class AdminController : ApiController
     {
-        flowersplantationEntities8 db = new flowersplantationEntities8();
+        flowersplantationEntities35 db = new flowersplantationEntities35();
+
         [HttpPost]
 
         public HttpResponseMessage AddUser(User user)
@@ -56,19 +57,22 @@ namespace flowers.Controllers
 
 
         {
-
+            
 
             try
             {
-                var user = db.Users.SqlQuery($"select * from users where username='{username}' and password='{password}' ").ToList();
+               // var user = db.Users.SqlQuery($"select * from users where username='{username}' and password='{password}' ").ToList();
 
-                if (user.Count==0)
+              var user1 = db.Users.Where(u => u.username == username && u.password==password).ToList();
+                
+
+                if (user1.Count==0)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "login faild register your self");
                 }
                 else
 
-                return Request.CreateResponse(HttpStatusCode.OK, user);
+                return Request.CreateResponse(HttpStatusCode.OK, user1);
 
 
 
@@ -89,7 +93,8 @@ namespace flowers.Controllers
 
 
 
-        } 
+        }
 
+       
     }
 }
