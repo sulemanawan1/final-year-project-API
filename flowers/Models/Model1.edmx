@@ -4,17 +4,21 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="flowersplantationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="flowercities">
+      <Schema Namespace="flowersplantationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="favoriteflower">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="area" Type="nvarchar" MaxLength="255" />
-          <Property Name="lat" Type="float" />
-          <Property Name="lng" Type="float" />
-          <Property Name="country" Type="nvarchar" MaxLength="255" />
-          <Property Name="province" Type="nvarchar" MaxLength="255" />
-          <Property Name="altitude" Type="float" />
+          <Property Name="fid" Type="int" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="status" Type="int" />
+        </EntityType>
+        <EntityType Name="flowercity">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="fid" Type="int" />
+          <Property Name="area" Type="varchar(max)" />
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="flowercolors">
@@ -24,13 +28,6 @@
           </Key>
           <Property Name="id" Type="int" Nullable="false" />
           <Property Name="color" Type="varchar" MaxLength="100" Nullable="false" />
-        </EntityType>
-        <EntityType Name="flowerimages">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="image_name" Type="nvarchar" MaxLength="255" />
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="flowers">
           <Key>
@@ -50,7 +47,7 @@
           <Property Name="shape" Type="nvarchar" MaxLength="255" />
           <Property Name="fragrance" Type="nvarchar" MaxLength="255" />
           <Property Name="lifetime" Type="int" />
-          <Property Name="altitude" Type="nvarchar" MaxLength="255" />
+          <Property Name="altitude" Type="int" />
           <Property Name="minaltitude" Type="int" />
           <Property Name="maxaltitude" Type="int" />
           <Property Name="area" Type="nvarchar" MaxLength="255" />
@@ -60,6 +57,35 @@
           <Property Name="disease" Type="nvarchar" MaxLength="255" />
           <Property Name="soiltype" Type="nvarchar" MaxLength="255" />
           <Property Name="fertilizer" Type="nvarchar" MaxLength="255" />
+          <Property Name="status" Type="int" />
+          <Property Name="image" Type="nvarchar" MaxLength="255" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="friends">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="friend1" Type="int" />
+          <Property Name="friend2" Type="int" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="nursery">
+          <Key>
+            <PropertyRef Name="nid" />
+          </Key>
+          <Property Name="nid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nname" Type="varchar" MaxLength="50" />
+          <Property Name="naddress" Type="varchar" MaxLength="50" />
+          <Property Name="ncontact" Type="varchar" MaxLength="30" />
+          <Property Name="userid" Type="int" />
+        </EntityType>
+        <EntityType Name="nurserystock">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="nid" Type="int" />
+          <Property Name="fid" Type="int" />
+          <Property Name="flowerquantity" Type="int" />
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="planflowers">
@@ -75,10 +101,19 @@
             <PropertyRef Name="pid" />
           </Key>
           <Property Name="pid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="planname" Type="varchar" MaxLength="50" />
-          <Property Name="createdby" Type="int" />
+          <Property Name="planname" Type="varchar(max)" />
+          <Property Name="userid" Type="int" />
           <Property Name="startmonth" Type="varchar(max)" />
           <Property Name="plantype" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="userrequests">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="sender" Type="int" Nullable="false" />
+          <Property Name="reciever" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="status" Type="int" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -90,31 +125,7 @@
           <Property Name="role" Type="nchar" MaxLength="10" />
           <Property Name="city" Type="varchar(max)" />
         </EntityType>
-        <Association Name="FK__planflowers__fid__473C8FC7">
-          <End Role="flowers" Type="Self.flowers" Multiplicity="0..1" />
-          <End Role="planflowers" Type="Self.planflowers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="flowers">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="planflowers">
-              <PropertyRef Name="fid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__planflowers__pid__46486B8E">
-          <End Role="plans" Type="Self.plans" Multiplicity="0..1" />
-          <End Role="planflowers" Type="Self.planflowers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="plans">
-              <PropertyRef Name="pid" />
-            </Principal>
-            <Dependent Role="planflowers">
-              <PropertyRef Name="pid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__plans__createdby__37FA4C37">
+        <Association Name="FK__plans__userid__64CCF2AE">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="plans" Type="Self.plans" Multiplicity="*" />
           <ReferentialConstraint>
@@ -122,45 +133,46 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="plans">
-              <PropertyRef Name="createdby" />
+              <PropertyRef Name="userid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="flowersplantationModelStoreContainer">
-          <EntitySet Name="flowercities" EntityType="Self.flowercities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="favoriteflower" EntityType="Self.favoriteflower" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="flowercity" EntityType="Self.flowercity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="flowercolors" EntityType="Self.flowercolors" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="flowerimages" EntityType="Self.flowerimages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="flowers" EntityType="Self.flowers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="friends" EntityType="Self.friends" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="nursery" EntityType="Self.nursery" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="nurserystock" EntityType="Self.nurserystock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="planflowers" EntityType="Self.planflowers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="plans" EntityType="Self.plans" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userrequests" EntityType="Self.userrequests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__planflowers__fid__473C8FC7" Association="Self.FK__planflowers__fid__473C8FC7">
-            <End Role="flowers" EntitySet="flowers" />
-            <End Role="planflowers" EntitySet="planflowers" />
-          </AssociationSet>
-          <AssociationSet Name="FK__planflowers__pid__46486B8E" Association="Self.FK__planflowers__pid__46486B8E">
-            <End Role="plans" EntitySet="plans" />
-            <End Role="planflowers" EntitySet="planflowers" />
-          </AssociationSet>
-          <AssociationSet Name="FK__plans__createdby__37FA4C37" Association="Self.FK__plans__createdby__37FA4C37">
+          <AssociationSet Name="FK__plans__userid__64CCF2AE" Association="Self.FK__plans__userid__64CCF2AE">
             <End Role="Users" EntitySet="Users" />
             <End Role="plans" EntitySet="plans" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="flowersplantationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="favoriteflower">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="fid" Type="Int32" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="status" Type="Int32" />
+        </EntityType>
         <EntityType Name="flowercity">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="area" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="lat" Type="Double" />
-          <Property Name="lng" Type="Double" />
-          <Property Name="country" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="province" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="altitude" Type="Double" />
+          <Property Name="fid" Type="Int32" />
+          <Property Name="area" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="flowercolor">
@@ -170,13 +182,6 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="color" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-        </EntityType>
-        <EntityType Name="flowerimage">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="image_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="flower">
           <Key>
@@ -196,7 +201,7 @@
           <Property Name="shape" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="fragrance" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="lifetime" Type="Int32" />
-          <Property Name="altitude" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="altitude" Type="Int32" />
           <Property Name="minaltitude" Type="Int32" />
           <Property Name="maxaltitude" Type="Int32" />
           <Property Name="area" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
@@ -206,8 +211,36 @@
           <Property Name="disease" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="soiltype" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="fertilizer" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="image" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="planflowers" Relationship="flowersplantationModel.FK__planflowers__fid__473C8FC7" FromRole="flower" ToRole="planflower" />
+        </EntityType>
+        <EntityType Name="friend">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="friend1" Type="Int32" />
+          <Property Name="friend2" Type="Int32" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="nursery">
+          <Key>
+            <PropertyRef Name="nid" />
+          </Key>
+          <Property Name="nid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="naddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ncontact" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="userid" Type="Int32" />
+        </EntityType>
+        <EntityType Name="nurserystock">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="nid" Type="Int32" />
+          <Property Name="fid" Type="Int32" />
+          <Property Name="flowerquantity" Type="Int32" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="planflower">
           <Key>
@@ -216,20 +249,25 @@
           <Property Name="pid" Type="Int32" />
           <Property Name="fid" Type="Int32" />
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="flower" Relationship="flowersplantationModel.FK__planflowers__fid__473C8FC7" FromRole="planflower" ToRole="flower" />
-          <NavigationProperty Name="plan" Relationship="flowersplantationModel.FK__planflowers__pid__46486B8E" FromRole="planflower" ToRole="plan" />
         </EntityType>
         <EntityType Name="plan">
           <Key>
             <PropertyRef Name="pid" />
           </Key>
           <Property Name="pid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="planname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="createdby" Type="Int32" />
+          <Property Name="planname" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="userid" Type="Int32" />
           <Property Name="startmonth" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="plantype" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="User" Relationship="Self.FK__plans__createdby__37FA4C37" FromRole="plans" ToRole="Users" />
-          <NavigationProperty Name="planflowers" Relationship="flowersplantationModel.FK__planflowers__pid__46486B8E" FromRole="plan" ToRole="planflower" />
+        </EntityType>
+        <EntityType Name="userrequest">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="sender" Type="Int32" Nullable="false" />
+          <Property Name="reciever" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="status" Type="Int32" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -240,9 +278,8 @@
           <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="role" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="city" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="plans" Relationship="Self.FK__plans__createdby__37FA4C37" FromRole="Users" ToRole="plans" />
         </EntityType>
-        <Association Name="FK__plans__createdby__37FA4C37">
+        <Association Name="FK__plans__userid__64CCF2AE">
           <End Role="Users" Type="Self.User" Multiplicity="0..1" />
           <End Role="plans" Type="Self.plan" Multiplicity="*" />
           <ReferentialConstraint>
@@ -250,70 +287,47 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="plans">
-              <PropertyRef Name="createdby" />
+              <PropertyRef Name="userid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="flowersplantationEntities35" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="flowersplantationEntities51" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="favoriteflowers" EntityType="Self.favoriteflower" />
           <EntitySet Name="flowercities" EntityType="Self.flowercity" />
           <EntitySet Name="flowercolors" EntityType="Self.flowercolor" />
-          <EntitySet Name="flowerimages" EntityType="Self.flowerimage" />
           <EntitySet Name="flowers" EntityType="Self.flower" />
+          <EntitySet Name="friends" EntityType="Self.friend" />
+          <EntitySet Name="nurseries" EntityType="Self.nursery" />
+          <EntitySet Name="nurserystocks" EntityType="Self.nurserystock" />
           <EntitySet Name="planflowers" EntityType="Self.planflower" />
           <EntitySet Name="plans" EntityType="Self.plan" />
+          <EntitySet Name="userrequests" EntityType="Self.userrequest" />
           <EntitySet Name="Users" EntityType="Self.User" />
-          <AssociationSet Name="FK__plans__createdby__37FA4C37" Association="Self.FK__plans__createdby__37FA4C37">
+          <AssociationSet Name="FK__plans__userid__64CCF2AE" Association="Self.FK__plans__userid__64CCF2AE">
             <End Role="Users" EntitySet="Users" />
             <End Role="plans" EntitySet="plans" />
           </AssociationSet>
-          <AssociationSet Name="FK__planflowers__fid__473C8FC7" Association="flowersplantationModel.FK__planflowers__fid__473C8FC7">
-            <End Role="flower" EntitySet="flowers" />
-            <End Role="planflower" EntitySet="planflowers" />
-          </AssociationSet>
-          <AssociationSet Name="FK__planflowers__pid__46486B8E" Association="flowersplantationModel.FK__planflowers__pid__46486B8E">
-            <End Role="plan" EntitySet="plans" />
-            <End Role="planflower" EntitySet="planflowers" />
-          </AssociationSet>
         </EntityContainer>
-        <Association Name="FK__planflowers__fid__473C8FC7">
-          <End Type="flowersplantationModel.flower" Role="flower" Multiplicity="0..1" />
-          <End Type="flowersplantationModel.planflower" Role="planflower" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="flower">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="planflower">
-              <PropertyRef Name="fid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__planflowers__pid__46486B8E">
-          <End Type="flowersplantationModel.plan" Role="plan" Multiplicity="0..1" />
-          <End Type="flowersplantationModel.planflower" Role="planflower" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="plan">
-              <PropertyRef Name="pid" />
-            </Principal>
-            <Dependent Role="planflower">
-              <PropertyRef Name="pid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="flowersplantationModelStoreContainer" CdmEntityContainer="flowersplantationEntities35">
+        <EntityContainerMapping StorageEntityContainer="flowersplantationModelStoreContainer" CdmEntityContainer="flowersplantationEntities51">
+          <EntitySetMapping Name="favoriteflowers">
+            <EntityTypeMapping TypeName="flowersplantationModel.favoriteflower">
+              <MappingFragment StoreEntitySet="favoriteflower">
+                <ScalarProperty Name="fid" ColumnName="fid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="flowercities">
             <EntityTypeMapping TypeName="flowersplantationModel.flowercity">
-              <MappingFragment StoreEntitySet="flowercities">
+              <MappingFragment StoreEntitySet="flowercity">
+                <ScalarProperty Name="fid" ColumnName="fid" />
                 <ScalarProperty Name="area" ColumnName="area" />
-                <ScalarProperty Name="lat" ColumnName="lat" />
-                <ScalarProperty Name="lng" ColumnName="lng" />
-                <ScalarProperty Name="country" ColumnName="country" />
-                <ScalarProperty Name="province" ColumnName="province" />
-                <ScalarProperty Name="altitude" ColumnName="altitude" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -323,14 +337,6 @@
               <MappingFragment StoreEntitySet="flowercolors">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="color" ColumnName="color" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="flowerimages">
-            <EntityTypeMapping TypeName="flowersplantationModel.flowerimage">
-              <MappingFragment StoreEntitySet="flowerimages">
-                <ScalarProperty Name="image_name" ColumnName="image_name" />
-                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -361,6 +367,38 @@
                 <ScalarProperty Name="disease" ColumnName="disease" />
                 <ScalarProperty Name="soiltype" ColumnName="soiltype" />
                 <ScalarProperty Name="fertilizer" ColumnName="fertilizer" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="friends">
+            <EntityTypeMapping TypeName="flowersplantationModel.friend">
+              <MappingFragment StoreEntitySet="friends">
+                <ScalarProperty Name="friend1" ColumnName="friend1" />
+                <ScalarProperty Name="friend2" ColumnName="friend2" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="nurseries">
+            <EntityTypeMapping TypeName="flowersplantationModel.nursery">
+              <MappingFragment StoreEntitySet="nursery">
+                <ScalarProperty Name="nid" ColumnName="nid" />
+                <ScalarProperty Name="nname" ColumnName="nname" />
+                <ScalarProperty Name="naddress" ColumnName="naddress" />
+                <ScalarProperty Name="ncontact" ColumnName="ncontact" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="nurserystocks">
+            <EntityTypeMapping TypeName="flowersplantationModel.nurserystock">
+              <MappingFragment StoreEntitySet="nurserystock">
+                <ScalarProperty Name="nid" ColumnName="nid" />
+                <ScalarProperty Name="fid" ColumnName="fid" />
+                <ScalarProperty Name="flowerquantity" ColumnName="flowerquantity" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -379,9 +417,19 @@
               <MappingFragment StoreEntitySet="plans">
                 <ScalarProperty Name="pid" ColumnName="pid" />
                 <ScalarProperty Name="planname" ColumnName="planname" />
-                <ScalarProperty Name="createdby" ColumnName="createdby" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
                 <ScalarProperty Name="startmonth" ColumnName="startmonth" />
                 <ScalarProperty Name="plantype" ColumnName="plantype" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userrequests">
+            <EntityTypeMapping TypeName="flowersplantationModel.userrequest">
+              <MappingFragment StoreEntitySet="userrequests">
+                <ScalarProperty Name="sender" ColumnName="sender" />
+                <ScalarProperty Name="reciever" ColumnName="reciever" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="status" ColumnName="status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

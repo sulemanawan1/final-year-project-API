@@ -17,8 +17,5 @@ namespace flowers.Models
         public Nullable<int> pid { get; set; }
         public Nullable<int> fid { get; set; }
         public int id { get; set; }
-    
-        public virtual flower flower { get; set; }
-        public virtual plan plan { get; set; }
     }
 }

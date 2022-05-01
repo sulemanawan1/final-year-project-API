@@ -14,19 +14,10 @@ namespace flowers.Models
     
     public partial class User
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
-        {
-            this.plans = new HashSet<plan>();
-        }
-    
         public int id { get; set; }
         public string username { get; set; }
         public string password { get; set; }
         public string role { get; set; }
         public string city { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<plan> plans { get; set; }
     }
 }

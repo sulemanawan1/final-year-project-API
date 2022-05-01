@@ -12,12 +12,11 @@ namespace flowers.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class plan
+    public partial class nurserystock
     {
-        public int pid { get; set; }
-        public string planname { get; set; }
-        public Nullable<int> userid { get; set; }
-        public string startmonth { get; set; }
-        public string plantype { get; set; }
+        public Nullable<int> nid { get; set; }
+        public Nullable<int> fid { get; set; }
+        public Nullable<int> flowerquantity { get; set; }
+        public int id { get; set; }
     }
 }

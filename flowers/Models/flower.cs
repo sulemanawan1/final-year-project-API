@@ -14,12 +14,6 @@ namespace flowers.Models
     
     public partial class flower
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public flower()
-        {
-            this.planflowers = new HashSet<planflower>();
-        }
-    
         public string name { get; set; }
         public string color { get; set; }
         public Nullable<int> startmonth { get; set; }
@@ -34,7 +28,7 @@ namespace flowers.Models
         public string shape { get; set; }
         public string fragrance { get; set; }
         public Nullable<int> lifetime { get; set; }
-        public string altitude { get; set; }
+        public Nullable<int> altitude { get; set; }
         public Nullable<int> minaltitude { get; set; }
         public Nullable<int> maxaltitude { get; set; }
         public string area { get; set; }
@@ -44,9 +38,8 @@ namespace flowers.Models
         public string disease { get; set; }
         public string soiltype { get; set; }
         public string fertilizer { get; set; }
+        public Nullable<int> status { get; set; }
+        public string image { get; set; }
         public int id { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<planflower> planflowers { get; set; }
     }
 }

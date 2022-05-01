@@ -1,5 +1,6 @@
 ﻿using flowers.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -9,7 +10,7 @@ namespace flowers.Controllers
 {
     public class FlowerController : ApiController
     {
-        flowersplantationEntities35 db = new flowersplantationEntities35();
+        flowersplantationEntities51 db = new flowersplantationEntities51();
 
 
 
@@ -24,8 +25,9 @@ namespace flowers.Controllers
                 db.flowers.Remove(flower);
 
                 db.SaveChanges();
+                
 
-                return Request.CreateResponse(HttpStatusCode.OK, "flower deleted successfully ");
+                return Request.CreateResponse(HttpStatusCode.OK, flower);
 
 
             }
@@ -76,9 +78,6 @@ namespace flowers.Controllers
 
 
 
-
-
-
                 return Request.CreateResponse(HttpStatusCode.OK, flower);
 
 
@@ -114,7 +113,7 @@ namespace flowers.Controllers
                         flower1.startmonth,
                         flower1.endmonth,
                         flower1.season,
-
+                        flower1.month,
                         flower1.growtime,
                         flower1.maxheight,
                         flower1.minheight,
@@ -130,7 +129,7 @@ namespace flowers.Controllers
                         flower1.pesticide,
                         flower1.soiltype,
                         flower1.fertilizer,
-
+                        flower1.image, flower1.status,
                         flowercity.area
                     }).
                     Where(ff => ff.area == area);
@@ -156,6 +155,51 @@ namespace flowers.Controllers
 
 
 
+        [HttpGet]
+        public HttpResponseMessage DateSearch(int startmonth, int growtime)
+        {
+            try
+            {
+                //var flower = db.flowers.SqlQuery($"select * from flowers ").ToList();
+
+                var flower = db.flowers.Where(f => f.startmonth == startmonth && f.growtime == growtime);
+
+                
+
+
+
+
+
+
+
+                    return Request.CreateResponse(HttpStatusCode.OK, flower);
+
+
+            }
+
+            catch (Exception exp)
+            {
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, exp.Message);
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -165,44 +209,24 @@ namespace flowers.Controllers
 
 
         [HttpGet]
-        public HttpResponseMessage searchbycolors(String color, int minaltitude
-            , int maxaltitude, String category, int minheight, int maxheight
+        public HttpResponseMessage compoundsearch(
+            String color,
+             String category,String season, int minheight, int maxheight, String area,
+            String fragrance,String shape
             )
         {
             try
             {
 
+
+
+
+             
+
                 var f = db.flowers.
-                  Join(db.flowercolors,
-                  fid => fid.id,
-                  cid => cid.id,
-                  (fid, uid) => new
-                  {
-                      fid.name,
-                      uid.color,
-                      fid.category,
-                      fid.season,
-                      fid.month,
-                      fid.pesticide,
-                      fid.minheight,
-                      fid.maxheight,
-                      fid.endmonth,
-                      fid.fragrance,
-                      fid.fertilizer,
-                      fid.disease,
-                      fid.sunlight,
-                      fid.watering,
-                      fid.area,
-                      fid.altitude,
-                      fid.minaltitude,
-                      fid.maxaltitude,
-                      fid.height,
-                      fid.growtime,
-                      fid.lifetime,
-                      fid.shape,
-                      fid.soiltype
-                  }).Where(c => c.color == color && c.minaltitude >= minaltitude && c.maxaltitude <= maxaltitude && c.category == category &&
-                  c.minheight >= minheight && c.maxheight <= maxheight
+                 Where(c=>c.color==color&& c.category == category &&c.season==season&&
+                  c.minheight >= minheight && c.maxheight <= maxheight && c.area == area&&
+                  c.fragrance==fragrance&&c.shape==shape
 
                   );
 
@@ -232,7 +256,77 @@ namespace flowers.Controllers
 
 
 
+        [HttpGet]
+        public HttpResponseMessage CompoundSearch2(String color,
+             String category, String season, string minheight, string maxheight, String area,
+            String fragrance, String shape)
+        {
+            long minh=0,maxh=0;
+            if (minheight != null)
+            {
+                minh = Convert.ToInt64(minheight.ToString());
+            }
+            if (maxheight != null)
+            {
+                maxh = Convert.ToInt64(maxheight.ToString());
+            }
+            try
+            {
+                IQueryable<flower> f = db.flowers.Where(m => m.color.Contains(color)
+                || m.category.Contains(category)
+                || m.season.Contains(season)
+                || m.minheight==minh
+                || m.maxheight == maxh
+                || m.area.Contains(area)
+                || m.fragrance.Contains(fragrance)
+                || m.shape.Contains(shape)
+                );
+                //if (color != null)
+                //{
+                //    f = f.Where(m => m.color.Contains(color)).ToList();
+                //}
+                //if (category != null)
+                //{
+                //    f = f.Where(m => m.category.Contains(category)).ToList();
+                //}
 
+
+                //if (season != null)
+                //{
+                //    f = f.Where(m => m.season.Contains(season)).ToList();
+                //}
+
+
+                //if (minheight != null)
+                //{
+                //    f = f.Where(m => m.minheight == minheight).ToList();
+                //}
+
+                //if (maxheight != null)
+                //{
+                //    f = f.Where(m => m.maxheight == maxheight).ToList();
+                //}
+                //if (area != null)
+                //{
+                //    f = f.Where(m => m.area.Contains(area)).ToList();
+                //}
+
+                //if (fragrance != null)
+                //{
+                //    f = f.Where(m => m.fragrance.Contains(fragrance)).ToList();
+                //}
+
+                //if (shape != null)
+                //{
+                //    f = f.Where(m => m.shape.Contains(shape)).ToList();
+                //}
+                return Request.CreateResponse(HttpStatusCode.OK, f);
+            }
+            catch(Exception e)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+        }
 
 
 
@@ -416,6 +510,30 @@ namespace flowers.Controllers
 
 
 
+        [HttpPost]
+        public HttpResponseMessage AddColor(flowercolor f)
+        {
+            try
+            {
+
+
+                db.flowercolors.Add(f);
+                db.SaveChanges();
+
+
+
+
+                return Request.CreateResponse(HttpStatusCode.OK, f.id);
+
+
+            }
+
+            catch (Exception exp)
+            {
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, exp.Message);
+            }
+        }
 
 
 
@@ -434,7 +552,6 @@ namespace flowers.Controllers
                 db.SaveChanges();
 
 
-                //Send OK Response to Client.
 
 
                 return Request.CreateResponse(HttpStatusCode.OK, f.id);
@@ -479,7 +596,6 @@ namespace flowers.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, exp.Message);
             }
         }
-
 
 
 

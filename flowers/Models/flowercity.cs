@@ -14,12 +14,8 @@ namespace flowers.Models
     
     public partial class flowercity
     {
+        public Nullable<int> fid { get; set; }
         public string area { get; set; }
-        public Nullable<double> lat { get; set; }
-        public Nullable<double> lng { get; set; }
-        public string country { get; set; }
-        public string province { get; set; }
-        public Nullable<double> altitude { get; set; }
         public int id { get; set; }
     }
 }

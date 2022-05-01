@@ -1,6 +1,5 @@
 ﻿using flowers.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -14,26 +13,69 @@ namespace flowers.Controllers
 
 
 
-        flowersplantationEntities35 db = new flowersplantationEntities35();
+        flowersplantationEntities51 db = new flowersplantationEntities51();
+
+
+
+
+
+
+        [HttpGet]
+        public HttpResponseMessage AllPlans(int userid)
+        {
+            try
+            {
+                var flower = db.plans.Where(p => p.userid == userid).ToList();
+
+
+
+
+
+
+                return Request.CreateResponse(HttpStatusCode.OK, flower);
+
+
+            }
+
+            catch (Exception exp)
+            {
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, exp.Message);
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 
         [HttpPost]
-        public HttpResponseMessage Addplan(plan plan)
+        public HttpResponseMessage Addplan(plan p)
         {
             try
             {
 
 
 
-                db.plans.Add(plan);
+                db.plans.Add(p);
                 db.SaveChanges();
 
                 //Send OK Response to Client.
 
 
-                return Request.CreateResponse(HttpStatusCode.OK, plan.planname);
+                return Request.CreateResponse(HttpStatusCode.OK, p.planname);
 
 
             }
@@ -46,46 +88,112 @@ namespace flowers.Controllers
         }
 
 
-        //[HttpGet]
-        //public HttpResponseMessage AllPlans(int id)
-        //{
-        //    try
-        //    { 
-              
-
-        //        //var myplan = db.plans.Join(db.flowers,
-        //        //    d => d.p, f => f.id, (d, f) =>
-        //        //    new { d, f }).Join(db.Users, plan => plan.d.plannedby,
-        //        //    user => user.id, (plan, user) => new
-        //        //    {
-        //        //        user.username,
-        //        //        user.id,
-        //        //        plan.d.planname,
-        //        //        plan.f.name,
-        //        //        plan.d.flowerid,
-        //        //        plan.d.startmonth,
-                    
-        //        //        plan.d.plannedby
-        //        //    }
-        //        //    ).Where(f => f.plannedby == id) . ToList();
 
 
 
 
+        [HttpPost]
+        public HttpResponseMessage Addplanflower(planflower pf)
+        {
+            try
+            {
+                
+                db.planflowers.Add(pf);
+                db.SaveChanges();
 
 
-        //        //return Request.CreateResponse(HttpStatusCode.OK, myplan);
+                return Request.CreateResponse(HttpStatusCode.OK, pf.pid);
 
 
-        //    }
+            }
 
-        //    catch (Exception exp)
-        //    {
+            catch (Exception exp)
+            {
 
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, exp.Message);
-        //    }
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, exp.Message);
+            }
+        }
 
-        //}
+        [HttpGet]
+        public HttpResponseMessage PlanFlowerDisplay(int pid)
+        {
+            try
+            {
+
+
+
+                var f1 = db.plans.Join(db.planflowers,
+                  plantable => plantable.pid,
+                   planflowertable => planflowertable.pid, (plantable, planflowertable) => new
+                   {
+                       plantable,
+                       planflowertable
+
+                   }).Join(db.flowers,
+                   flowertable => flowertable.planflowertable.fid,
+                   f => f.id, (flowertable, f) => new
+                   {
+
+
+                       f.id,
+                       f.color,
+                       f.height,
+                       f.maxaltitude,
+                       f.minaltitude,
+                       f.minheight,
+                       f.maxheight,
+                       f.image,
+                       f.lifetime,
+                       f.fertilizer,
+                       f.fragrance,
+                       f.growtime,
+                       f.season,
+                       f.watering,
+                       f.soiltype,
+                       f.shape,
+                       f.pesticide,
+                       f.sunlight,
+                       f.startmonth,
+                       f.endmonth,
+                       f.disease,
+                       f.area,
+                       f.month,
+                       f.category,
+                       f.name,
+                       flowertable.planflowertable.fid,
+                       flowertable.planflowertable.pid,
+                       flowertable.plantable.planname
+                   }
+
+
+
+
+                   ).Where(p => p.pid == pid);
+
+
+
+
+
+
+                return Request.CreateResponse(HttpStatusCode.OK, f1);
+
+
+            }
+
+            catch (Exception exp)
+            {
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, exp.Message);
+            }
+
+        }
+
+
+
+
+
+
+
 
 
 
@@ -94,12 +202,31 @@ namespace flowers.Controllers
 
 
         [HttpGet]
-        public HttpResponseMessage PlanbyMonth(string input1 )
+        public HttpResponseMessage PlanbyMonth(int pid)
         {
             try
             {
+
+                var temp = db.plans.Where(u => u.pid == pid);
+
+
+                var arr = temp.ToArray();
+
+                string input1 = "";
                 int val1 = 0;
-                //int val2 = 0;
+
+                foreach (var Array in arr)
+                {
+                    input1 = Array.startmonth;
+
+
+
+
+
+
+
+                }
+
 
 
                 switch (input1)
@@ -170,7 +297,7 @@ namespace flowers.Controllers
                         input1 = "11";
                         val1 = int.Parse(input1);
                         break;
-                         
+
                     case "december":
                     case "dec":
                         input1 = "12";
@@ -178,90 +305,18 @@ namespace flowers.Controllers
                         break;
                 }
 
-                //switch (input2)
-                //{
-                //    case "january":
-                //    case "jan":
-                //        input2 = "1";
-                //        val2 = int.Parse(input2);
-                //        break;
 
-                //    case "febuary":
-                //    case "feb":
-                //        input2 = "2";
-                //        int.Parse(input2);
-                //        break;
-
-                //    case "march":
-                //    case "mar":
-                //        input2 = "3";
-                //        val2 = int.Parse(input2);
-                //        break;
-
-                //    case "april":
-                //    case "apr":
-                //        input2 = "4";
-                //        val2 = int.Parse(input2);
-                //        break;
-
-                //    case "may":
-                //        input2 = "5";
-                //        val2 = int.Parse(input2);
-                //        break;
-
-                //    case "june":
-                //    case "jun":
-                //        input2 = "6";
-                //        val2 = int.Parse(input2);
-                //        break;
-
-                //    case "july":
-                //    case "jul":
-                //        input2 = "7";
-                //        val2 = int.Parse(input2);
-                //        break;
-
-                //    case "august":
-                //    case "aug":
-                //        input2 = "8";
-                //        val2 = int.Parse(input2);
-                //        break;
-
-                //    case "september":
-                //    case "sep":
-                //    case "sept":
-                //        input2 = "9";
-                //        val2 = int.Parse(input2);
-                //        break;
-
-                //    case "october":
-                //    case "oct":
-                //        input2 = "10";
-                //        val2 = int.Parse(input2);
-                //        break;
-
-                //    case "november":
-                //    case "nov":
-                //        input2 = "11";
-                //        val2 = int.Parse(input2);
-                //        break;
-
-                //    case "december":
-                //    case "dec":
-                //        input2 = "12";
-                //        val2 = int.Parse(input2);
-                //        break;
+                Console.WriteLine(val1);
 
 
 
-                     
-                //}
+                var flowers = db.flowers.Where(f => f.startmonth > val1);
 
 
 
-                var myplan = db.flowers.Where(s => s.startmonth == val1 );
 
-                return Request.CreateResponse(HttpStatusCode.OK, myplan);
+
+                return Request.CreateResponse(HttpStatusCode.OK, flowers);
 
 
 
@@ -315,10 +370,10 @@ namespace flowers.Controllers
 
         //        var finalplan = db.flowers.Where(f => f.growtime == days);
 
-                
 
-                
-                
+
+
+
 
         //        return Request.CreateResponse(HttpStatusCode.OK,finalplan);
 

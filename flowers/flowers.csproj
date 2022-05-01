@@ -181,7 +181,10 @@
     <Compile Include="bin\Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="bin\Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="bin\Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\FavoriteFlowerController.cs" />
+    <Compile Include="Controllers\FriendController.cs" />
+    <Compile Include="Controllers\NurseryController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\FlowerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
@@ -189,6 +192,9 @@
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\favoriteflower.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\flower.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -199,7 +205,7 @@
     <Compile Include="Models\flowercolor.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\flowerimage.cs">
+    <Compile Include="Models\friend.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Model1.Context.cs">
@@ -217,6 +223,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\nursery.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\nurserystock.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\plan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -224,6 +236,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\userrequest.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
